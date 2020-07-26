@@ -24,7 +24,7 @@ public class ConsultingMath extends JFrame {
         setTitle("Consulting Math Tool");
         setSize(750, 750);
         setLocationRelativeTo(null);
-        setResizable(false);
+        //setResizable(false);
 
         //Menu
         mb_menu = new JMenuBar();
@@ -55,7 +55,7 @@ public class ConsultingMath extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        //buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         JLabel titleText = new JLabel("Consulting Mental Math Tool");
         JLabel subtitleText = new JLabel("By: Robert Wachen");
@@ -66,7 +66,13 @@ public class ConsultingMath extends JFrame {
         panel.add(operations);
         panel.add(buttonPanel);
 
-        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //titleText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //titleText.setHorizontalAlignment(SwingConstants.LEFT);
+        panel.setBorder(BorderFactory.createTitledBorder("panel"));
+        titleText.setBorder(BorderFactory.createTitledBorder("titleText"));
+        subtitleText.setBorder(BorderFactory.createTitledBorder("subtitleText"));
+        operations.setBorder(BorderFactory.createTitledBorder("operations"));
+        buttonPanel.setBorder(BorderFactory.createTitledBorder("buttonPanel"));
 
         Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
         State[] states = State.values();
@@ -100,7 +106,7 @@ public class ConsultingMath extends JFrame {
         //operations.setHorizontalAlignment(SwingConstants.CENTER);
         //operations.setAlignmentY(SwingConstants.CENTER);
 
-        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         return panel;
     }
 

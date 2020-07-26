@@ -13,7 +13,7 @@ public class MathPanel extends JPanel {
     private String currentQuestion;
     private String currentAnswer;
 
-    private JLabel problem, answer;
+    private JLabel problem, answer, explanation;
     private JTextField textField;
     private JButton next;
     private JButton check;
@@ -32,10 +32,15 @@ public class MathPanel extends JPanel {
         textField.setFont(font);
         textField.setForeground(Color.blue);
 
-        answer = new JLabel("dgf ",JLabel.CENTER);
+        answer = new JLabel("",JLabel.CENTER);
         answer.setForeground(Color.blue);
         answer.setFont(font);
         answer.setVerticalAlignment(SwingConstants.CENTER);
+
+        explanation = new JLabel("",JLabel.CENTER);
+        explanation.setForeground(Color.blue);
+        explanation.setFont(font);
+        explanation.setVerticalAlignment(SwingConstants.CENTER);
 
         next = new JButton("Next Question");
         next.setFont(font);
@@ -47,11 +52,13 @@ public class MathPanel extends JPanel {
         problem.setSize(new Dimension(750, 150));
         textField.setPreferredSize(new Dimension(750, 150));
         answer.setPreferredSize(new Dimension(750, 150));
+        explanation.setPreferredSize(new Dimension(750, 150));
         next.setPreferredSize(new Dimension(750, 150));
 
         add(problem);
         add(textField);
         add(answer);
+        add(explanation);
         add(next);
 
         textField.addActionListener(e -> checkAnswer(e.getActionCommand()));
@@ -59,6 +66,7 @@ public class MathPanel extends JPanel {
         next.addActionListener(e -> nextQuestion());
 
         nextQuestion();
+        ConsultingMath.fitLabel(problem);
     }
 
     private void nextQuestion() {
@@ -87,6 +95,7 @@ public class MathPanel extends JPanel {
         problem.setText(currentQuestion);
         textField.setText("");
         answer.setText("");
+        explanation.setText("");
         setBackground(Color.lightGray);
         ConsultingMath.fitLabel(problem);
     }
@@ -104,14 +113,16 @@ public class MathPanel extends JPanel {
     public void checkAnswer(String input) {
         if (isNumeric(input.substring(input.length() - 1))
                 || !isNumeric(input.substring(0, input.length() - 1))) {
-            answer.setText("Invalid format. Please try again. Make sure to use units.");
+            answer.setText("Invalid format");
+            explanation.setText("Please try again. Make sure to use units.");
             setBackground(Color.yellow);
         } else {
             if (input.equals(currentAnswer)) {
                 answer.setText("Correct!");
                 setBackground(Color.green);
             } else {
-                answer.setText("Incorrect.\n Problem: " + currentQuestion +
+                answer.setText("Incorrect.");
+                explanation.setText("Problem: " + currentQuestion +
                         "\n Your Answer: " + input +
                         "\n Correct Answer: " + currentAnswer);
                 setBackground(Color.red);

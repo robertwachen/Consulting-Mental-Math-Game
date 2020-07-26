@@ -1,14 +1,9 @@
-import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
-
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.spi.NumberFormatProvider;
-import java.util.Locale;
-import java.util.Random;
 
 public class ConsultingMath {
     private static JFrame mathFrame = new JFrame();
@@ -24,7 +19,7 @@ public class ConsultingMath {
 
 
     public static void main(String[] args) {
-       createTitleFrame();
+        createTitleFrame();
     }
 
     public static void createTitleFrame() {
@@ -104,8 +99,8 @@ public class ConsultingMath {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                int a=JOptionPane.showConfirmDialog(titleFrame,"Are you sure you want to leave?");
-                if(a==JOptionPane.YES_OPTION){
+                int a = JOptionPane.showConfirmDialog(titleFrame, "Are you sure you want to leave?");
+                if (a == JOptionPane.YES_OPTION) {
                     titleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     System.exit(69);
                 }
@@ -198,9 +193,13 @@ public class ConsultingMath {
 
     public static void updateMathFrame(boolean nextProblem) {
         if (nextProblem) {
-            if (game.equals("multiply")) { multiply(); }
-            else if (game.equals("divide")) { divide(); }
-            else if (game.equals("percent")) { percent(); }
+            if (game.equals("multiply")) {
+                multiply();
+            } else if (game.equals("divide")) {
+                divide();
+            } else if (game.equals("percent")) {
+                percent();
+            }
         }
         problem.setText(question);
         textField.setText("");
@@ -209,8 +208,8 @@ public class ConsultingMath {
 
     public static void checkAnswer(ActionEvent e) {
         String theirAnswer = e.getActionCommand();
-        if (isNumeric(theirAnswer.substring(theirAnswer.length()-1))
-                || !isNumeric(theirAnswer.substring(0, theirAnswer.length()-1))) {
+        if (isNumeric(theirAnswer.substring(theirAnswer.length() - 1))
+                || !isNumeric(theirAnswer.substring(0, theirAnswer.length() - 1))) {
             answer.setText("Invalid format. Please try again. Make sure to use units.");
         } else {
             if (theirAnswer.equals(correctAnswer)) {
@@ -224,25 +223,25 @@ public class ConsultingMath {
     }
 
     public static void multiply() {
-        int number1 = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int)(Math.random() * 5) + 1)));
-        int number2 = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int)(Math.random() * 7) + 1)));
+        int number1 = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int) (Math.random() * 5) + 1)));
+        int number2 = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int) (Math.random() * 7) + 1)));
         correctAnswer = formatNumber((double) number1 * number2);
         question = "What is " + formatNumber(number1) + " times " + formatNumber(number2) + "?";
         updateMathFrame(false);
     }
 
     public static void divide() {
-        long bigNumber = (long)(((int)(Math.random() * 98) + 1) * (Math.pow(10, (int)(Math.random() * 4) + 5)));
-        int littleNumber = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int)(Math.random() * 5) + 1)));
+        long bigNumber = (long) (((int) (Math.random() * 98) + 1) * (Math.pow(10, (int) (Math.random() * 4) + 5)));
+        int littleNumber = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int) (Math.random() * 5) + 1)));
         correctAnswer = formatNumber((double) bigNumber / littleNumber);
         question = "What is " + formatNumber(bigNumber) + " divided by " + formatNumber(littleNumber) + "?";
         updateMathFrame(false);
     }
 
     public static void percent() {
-        int percent = (int)(Math.random() * 10) * 5;
-        long bigNumber = (long)(((int)(Math.random() * 98) + 1) * (Math.pow(10, (int)(Math.random() * 4) + 5)));
-        correctAnswer = formatNumber((double) Math.round((bigNumber * ((double) percent/100)) * 100) / 100);
+        int percent = (int) (Math.random() * 10) * 5;
+        long bigNumber = (long) (((int) (Math.random() * 98) + 1) * (Math.pow(10, (int) (Math.random() * 4) + 5)));
+        correctAnswer = formatNumber((double) Math.round((bigNumber * ((double) percent / 100)) * 100) / 100);
         question = "What is " + percent + " percent of " + formatNumber(bigNumber) + "?";
         updateMathFrame(false);
     }

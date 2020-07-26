@@ -187,7 +187,7 @@ public class ConsultingMath {
         mathFrame.setLayout(new BoxLayout(mathFrame, BoxLayout.Y_AXIS));
         mathFrame.setBackground(Color.darkGray);
         mathFrame.setContentPane(mathPanel);
-        mathFrame.setSize(750, 750);
+        mathFrame.setSize(2500, 750);
         mathFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         textField.addActionListener(e -> checkAnswer(e));
@@ -216,9 +216,9 @@ public class ConsultingMath {
             if (theirAnswer.equals(correctAnswer)) {
                 answer.setText("Correct!");
             } else {
-                answer.setText("Incorrect.\nProblem: " + question +
-                        "\nYour Answer: " + theirAnswer +
-                        "\nCorrect Answer: " + correctAnswer);
+                answer.setText("Incorrect.\n Problem: " + question +
+                        "\n Your Answer: " + theirAnswer +
+                        "\n Correct Answer: " + correctAnswer);
             }
         }
     }

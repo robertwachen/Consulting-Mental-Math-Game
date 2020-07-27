@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
 
+/**
+ * @deprecated
+ */
 public class MathPanel extends JPanel {
 
     //fonts

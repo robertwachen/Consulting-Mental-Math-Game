@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class ConsultingMath extends JFrame {
     private JMenuBar mb_menu;
@@ -22,9 +23,8 @@ public class ConsultingMath extends JFrame {
         //JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Consulting Math Tool");
-        setSize(750, 750);
+        setSize(500, 500);
         setLocationRelativeTo(null);
-        //setResizable(false);
 
         //Menu
         mb_menu = new JMenuBar();
@@ -33,7 +33,8 @@ public class ConsultingMath extends JFrame {
         mb_menu.add(m_file);
         m_help = new JMenu("Help");
         mb_menu.add(m_help);
-        mi_return_title = new JMenuItem("New Game");
+        mi_return_title = new JMenuItem("Return To Title");
+        mi_return_title.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.META_DOWN_MASK));
         mi_return_title.addActionListener(e -> setContentPane(titlePanel));
         mi_file_exit = new JMenuItem("Exit");
         mi_file_exit.addActionListener(e -> System.exit(0));
@@ -255,7 +256,7 @@ public class ConsultingMath extends JFrame {
     }
 
     private void newMath(State state) {
-        setContentPane(new MathPanel(state));
+        setContentPane(new MathPanelIJ(state));
         revalidate();
     }
 
@@ -328,7 +329,7 @@ public class ConsultingMath extends JFrame {
         final Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
         final Font titleFont = new JLabel().getFont().deriveFont(30f);
         final Font subtitleFont = new JLabel().getFont().deriveFont(20f);
-        panel.setBackground(Color.lightGray);
+        //panel.setBackground(Color.lightGray);
 
 
         int totalRows = 6;

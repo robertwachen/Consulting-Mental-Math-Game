@@ -7,3 +7,5 @@ Types of Problems:
   - Percentage Problems (What is 15% of 30B?)
   - Division Problems (What is 300M divided by 20K?)
   - Multiplication Problems (What is 25K times 40K?)
+
+[Runnable JAR File](out/artifacts/Consulting_Mental_Math_Game_jar/Consulting-Mental-Math-Game.jar)

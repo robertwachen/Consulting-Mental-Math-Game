@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
+//Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
 public class ConsultingMath extends JFrame {
     private JMenuBar mb_menu;
     private JMenu m_file, m_help;
@@ -37,7 +39,6 @@ public class ConsultingMath extends JFrame {
         setTitle("Consulting Math Tool");
         setSize(600, 400);
         setLocationRelativeTo(null);
-
         //Menu
         mb_menu = new JMenuBar();
         setJMenuBar(mb_menu);

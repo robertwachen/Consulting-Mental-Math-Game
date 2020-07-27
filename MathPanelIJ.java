@@ -4,7 +4,8 @@ import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 
 public class MathPanelIJ extends JPanel {
-    private static final Font font = new Font("SansSerif", Font.BOLD, 50);
+    private static final Font font = new Font("SansSerif", Font.PLAIN, 30);
+    private Color BACKGROUND;
 
     private State state;
     private final String stateInQuestion;
@@ -18,13 +19,14 @@ public class MathPanelIJ extends JPanel {
     private JProgressBar progressBar;
     private JButton nextQuestionButton, checkAnswerButton;
 
-    private int correct, max;
+    private int correct, incorrect, max;
 
     private boolean canIncrement;
 
     public MathPanelIJ(State state, int max) {
         this.max = max;
         this.correct = 0;
+        this.incorrect = 0;
         this.state = state;
         stateInQuestion = state.getInQuestion();
         canIncrement = false;
@@ -39,12 +41,12 @@ public class MathPanelIJ extends JPanel {
         utilPanel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         this.add(utilPanel1, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
 
-        checkAnswerButton = new JButton("Check Answer");
+        checkAnswerButton = new JButton("Check Answer (Enter)");
         utilPanel1.add(checkAnswerButton, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        nextQuestionButton = new JButton("Next Question");
+        nextQuestionButton = new JButton("Next Question (^/⌘P)");
         utilPanel1.add(nextQuestionButton, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
-        progressBar = new JProgressBar(0, max);
+        progressBar = new JProgressBar(0, 0);
         this.add(progressBar, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         textField = new JTextField();
@@ -61,6 +63,8 @@ public class MathPanelIJ extends JPanel {
         utilPanel2.add(explanation, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         status = new JLabel();
+        status.setFont(font);
+        status.setForeground(Color.BLUE);
         this.add(status, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_EAST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         //action events
@@ -71,7 +75,8 @@ public class MathPanelIJ extends JPanel {
         registerKeyboardAction(e -> nextQuestion(), KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.META_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
         //look and feel
-
+        BACKGROUND = getBackground();
+        problem.setFont(font);
 
         nextQuestion();
     }
@@ -108,10 +113,9 @@ public class MathPanelIJ extends JPanel {
         textField.setEditable(true);
         answer.setText("");
         explanation.setText("");
-        progressBar.setValue(correct);
         canIncrement = true;
-        status.setText(correct + "/" + max + " CORRECT");
-        updateBackground(Color.lightGray);
+        updateDisplay();
+        updateBackground(BACKGROUND);
     }
 
     private static String formatNumber(double count) {
@@ -147,10 +151,18 @@ public class MathPanelIJ extends JPanel {
                 explanation.setText("Problem: " + currentQuestion +
                         "\n Your Answer: " + input +
                         "\n Correct Answer: " + currentAnswer);
+                if (canIncrement) incorrect++;
                 updateBackground(Color.red);
             }
             canIncrement = false;
+            updateDisplay();
         }
+    }
+
+    private void updateDisplay() {
+        status.setText(correct + ":" + incorrect);
+        progressBar.setMaximum(correct+incorrect);
+        progressBar.setValue(correct);
     }
 
     public static boolean isNumeric(String strNum) {

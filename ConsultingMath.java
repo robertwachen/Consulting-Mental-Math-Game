@@ -35,7 +35,7 @@ public class ConsultingMath extends JFrame {
         //JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Consulting Math Tool");
-        setSize(500, 500);
+        setSize(600, 400);
         setLocationRelativeTo(null);
 
         //Menu

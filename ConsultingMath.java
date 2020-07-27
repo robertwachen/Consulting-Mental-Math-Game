@@ -1,272 +1,163 @@
-import com.sun.xml.internal.messaging.saaj.soap.JpegDataContentHandler;
-
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-import java.awt.event.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.spi.NumberFormatProvider;
-import java.util.Locale;
-import java.util.Random;
+import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
-public class ConsultingMath {
-    private static JFrame mathFrame = new JFrame();
-    private static JPanel mathPanel = new JPanel();
-    private static JLabel problem = new JLabel();
-    private static JTextField textField = new JTextField();
-    private static JLabel answer = new JLabel("");
-    private static String[] units = {"K", "M", "B", "T"};
-    private static JButton nextQuestion = new JButton("Next Question");
-    private static String correctAnswer = "";
-    private static String question = "";
-    private static String game = "";
+//Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
+public class ConsultingMath extends JFrame {
+    private JMenuBar mb_menu;
+    private JMenu m_file, m_help;
+    private JMenuItem mi_file_exit, mi_return_title;
+    private JMenuItem mi_help_about, mi_help_how;
+
+    private JPanel titlePanel;
+
+    private static final String ABOUT = "" +
+            "Welcome to the Consulting Mental Math Pratice Tool! " +
+            "This application should help prepare you " +
+            "for mental math problems that could appear on consulting case interviews.\n" +
+            "\n" +
+            "Types of Problems:" +
+            "\n" +
+            " - Percentage Problems (What is 15% of 30B?)\n" +
+            " - Division Problems (What is 300M divided by 20K?)\n" +
+            " - Multiplication Problems (What is 25K times 40K?)" +
+            "\n\nIf you enjoyed this tool, please share it with a friend!" +
+            "\nProject created by Robert Wachen and Noah Schiff using Java (Swing API)";
+
+    private static final String HOWTOUSE = "" +
+            "HOW TO USE: \n" +
+            "1) Starting on the title screen, select which operation you'd like to practice.\n" +
+            "2) Solve the problems rounding 2 decimal places. Label your answers using K, M, B, or T.\n" +
+            "3) When you're done practicing an operation, return to the title screen and select another.\n" +
+            "We hope you find this tool helpful!";
 
     public static void main(String[] args) {
-       createTitleFrame();
+        new ConsultingMath();
     }
 
-    public static void createTitleFrame() {
-        //defining elements
-        JFrame titleFrame = new JFrame("Consulting Math Tool");
-        JPanel mainPanel = new JPanel();
-        JPanel titlePanel = new JPanel();
-        JPanel subtitlePanel = new JPanel();
-        JPanel operationPanel = new JPanel();
-        JPanel operationButtons = new JPanel();
-        JLabel titleText = new JLabel("Consulting Mental Math Tool", SwingConstants.CENTER);
-        JLabel subtitleText = new JLabel("By: Robert Wachen", SwingConstants.CENTER);
-        JLabel operations = new JLabel("Pick which operation you'd like to practice:", SwingConstants.CENTER);
-        JButton multiply = new JButton();
-        JButton divide = new JButton();
-        JButton percent = new JButton();
+    public ConsultingMath() {
+        System.out.println(Arrays.toString(UIManager.getInstalledLookAndFeels()));
+//        try {
+//            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//                if ("CDE/Motif".equals(info.getName())) {
+//                    UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (Exception e) {
+//            // If Nimbus is not available, you can set the GUI to another look and feel.
+//        }
+        //UIManager.setLookAndFeel(UIManager.getLookAndFeelDefaults());
 
-        //adding action listeners
-        multiply.addActionListener(e -> {
-            game = "multiply";
-            createMathFrame();
-            multiply();
-        });
-        divide.addActionListener(e -> {
-            game = "divide";
-            createMathFrame();
-            divide();
-        });
-        percent.addActionListener(e -> {
-            game = "percent";
-            createMathFrame();
-            percent();
-        });
+        //JFrame
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Consulting Math Tool");
+        setSize(600, 400);
+        setLocationRelativeTo(null);
+        //Menu
+        mb_menu = new JMenuBar();
+        setJMenuBar(mb_menu);
+        m_file = new JMenu("File");
+        mb_menu.add(m_file);
+        m_help = new JMenu("Help");
+        mb_menu.add(m_help);
+        mi_return_title = new JMenuItem("Return To Title");
+        mi_return_title.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.META_DOWN_MASK));
+        mi_return_title.addActionListener(e -> setContentPane(titlePanel));
+        mi_file_exit = new JMenuItem("Exit");
+        mi_file_exit.addActionListener(e -> System.exit(0));
+        m_file.add(mi_return_title);
+        m_file.add(new JSeparator());
+        m_file.add(mi_file_exit);
+        mi_help_about = new JMenuItem("About");
+        mi_help_about.addActionListener(e -> JOptionPane.showMessageDialog(null, ABOUT, "About", JOptionPane.PLAIN_MESSAGE));
+        m_help.add(mi_help_about);
+        mi_help_how = new JMenuItem("How To Use");
+        mi_help_how.addActionListener(e -> JOptionPane.showMessageDialog(null, HOWTOUSE, "How To Use", JOptionPane.PLAIN_MESSAGE));
+        m_help.add(mi_help_how);
 
-        //adding to layout
-        titleFrame.setSize(750, 750);
-        mainPanel.setLayout(new FlowLayout()); //change eventually
-        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
-        subtitlePanel.setLayout(new BoxLayout(subtitlePanel, BoxLayout.Y_AXIS));
-        operationPanel.setLayout(new BoxLayout(operationPanel, BoxLayout.Y_AXIS));
-        operationButtons.setLayout(new FlowLayout());
 
-        //setting design
-        titleFrame.setBackground(Color.darkGray);
+        //Title
+        titlePanel = createTitlePanel();
+        setContentPane(titlePanel);
 
-        Font font = new Font("SansSerif", Font.BOLD, 30);
-        titleText.setFont(font);
-        titleText.setForeground(Color.blue);
-        titleText.setVerticalAlignment(SwingConstants.CENTER);
-
-        Font subtitleFont = new Font("SansSerif", Font.BOLD, 20);
-        subtitleText.setFont(subtitleFont);
-        subtitleText.setForeground(Color.blue);
-        subtitleText.setVerticalAlignment(SwingConstants.CENTER);
-
-        operations.setFont(new Font("SansSerif", Font.BOLD, 20));
-        operations.setForeground(Color.blue);
-        operations.setVerticalAlignment(SwingConstants.CENTER);
-        operations.setAlignmentY(SwingConstants.CENTER);
-
-        Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
-        multiply.setText("Multiplication");
-        multiply.setFont(buttonFont);
-        multiply.setVerticalAlignment(SwingConstants.CENTER);
-        divide.setText("Division");
-        divide.setFont(buttonFont);
-        divide.setVerticalAlignment(SwingConstants.CENTER);
-        percent.setText("Percents");
-        percent.setFont(buttonFont);
-        percent.setVerticalAlignment(SwingConstants.CENTER);
-
-        titleFrame.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-                int a=JOptionPane.showConfirmDialog(titleFrame,"Are you sure you want to leave?");
-                if(a==JOptionPane.YES_OPTION){
-                    titleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    System.exit(69);
-                }
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        });
-
-        //add to layout
-        titlePanel.add(titleText);
-        subtitlePanel.add(subtitleText, SwingConstants.CENTER);
-        operationPanel.add(operations, SwingConstants.CENTER);
-        operationButtons.add(multiply);
-        operationButtons.add(divide);
-        operationButtons.add(percent);
-
-        //add to main panel
-        mainPanel.add(titlePanel);
-        mainPanel.add(subtitlePanel);
-        mainPanel.add(operationPanel);
-        mainPanel.add(operationButtons);
-
-        //add to title frame and finish
-        titleFrame.add(mainPanel);
-        titleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        titleFrame.setVisible(true);
+        //Show
+        revalidate();
+        setVisible(true);
     }
 
-    public static void createMathFrame() {
-        Font font = new Font("SansSerif", Font.BOLD, 50);
-        problem.setFont(font);
-        problem.setForeground(Color.blue);
-        problem.setVerticalAlignment(SwingConstants.CENTER);
-
-        textField.setFont(font);
-        textField.setForeground(Color.blue);
-
-        answer.setFont(font);
-        answer.setForeground(Color.blue);
-        answer.setVerticalAlignment(SwingConstants.CENTER);
-
-        nextQuestion.setFont(font);
-        nextQuestion.setForeground(Color.blue);
-
-        problem.setPreferredSize(new Dimension(750, 150));
-        textField.setPreferredSize(new Dimension(750, 150));
-        answer.setPreferredSize(new Dimension(750, 150));
-        nextQuestion.setPreferredSize(new Dimension(750, 150));
-
-        mathPanel.add(problem);
-        mathPanel.add(textField);
-        mathPanel.add(answer);
-        mathPanel.add(nextQuestion);
-
-        mathPanel.setLayout(new BoxLayout(mathPanel, BoxLayout.Y_AXIS));
-        mathFrame.setLayout(new BoxLayout(mathFrame, BoxLayout.Y_AXIS));
-        mathFrame.setBackground(Color.darkGray);
-        mathFrame.setContentPane(mathPanel);
-        mathFrame.setSize(2500, 750);
-        mathFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        textField.addActionListener(e -> checkAnswer(e));
-        nextQuestion.addActionListener(e -> updateMathFrame(true));
-
-        mathFrame.setVisible(true);
+    private void newMath(State state) {
+        setContentPane(new MathPanelIJ(state));
+        revalidate();
     }
 
-    public static void updateMathFrame(boolean nextProblem) {
-        if (nextProblem) {
-            if (game.equals("multiply")) { multiply(); }
-            else if (game.equals("divide")) { divide(); }
-            else if (game.equals("percent")) { percent(); }
+    private JPanel createTitlePanel() {
+        final JPanel panel = new JPanel();
+
+        //look and feel
+        final Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
+        final Font titleFont = new JLabel().getFont().deriveFont(30f);
+        final Font subtitleFont = new JLabel().getFont().deriveFont(20f);
+        final Font optionsFont = new JLabel().getFont().deriveFont(20f);
+        //panel.setBackground(Color.lightGray);
+
+        int totalRows = 6;
+        panel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(totalRows, 1, new Insets(0, 0, 0, 0), -1, -1));
+        final JLabel titleText = new JLabel("Consulting Mental Math Tool");
+        //Font label1Font = this.$$$getFont$$$(null, -1, 24, titleText.getFont());
+        //if (label1Font != null) titleText.setFont(label1Font);
+        titleText.setFont(titleFont);
+        panel.add(titleText, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel optionText = new JLabel("Pick which operation you'd like to practice:");
+        optionText.setFont(optionsFont);
+        panel.add(optionText, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel creditText = new JLabel("By: Robert Wachen and Noah Schiff");
+        panel.add(creditText, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        creditText.setFont(subtitleFont);
+        final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
+        panel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+
+        final JPanel buttonPanel = new JPanel();
+        State[] states = State.values();
+        JButton[] options = new JButton[states.length];
+        for (int i = 0; i < states.length; i++) {
+            State state = states[i];
+            options[i] = new JButton(state.toString());
+            options[i].setFont(buttonFont);
+            options[i].setVerticalAlignment(SwingConstants.CENTER);
+            options[i].addActionListener(e -> newMath(state));
+            buttonPanel.add(options[i]);
         }
-        problem.setText(question);
-        textField.setText("");
-        answer.setText("");
+        buttonPanel.setBackground(panel.getBackground());
+        //buttonPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 9, new Insets(0, 0, 0, 0), -1, -1));
+
+        //panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 9, new Insets(0, 0, 0, 0), -1, -1));
+        panel.add(buttonPanel, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+
+        final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
+        panel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        return panel;
     }
 
-    public static void checkAnswer(ActionEvent e) {
-        String theirAnswer = e.getActionCommand();
-        if (isNumeric(theirAnswer.substring(theirAnswer.length()-1))
-                || !isNumeric(theirAnswer.substring(0, theirAnswer.length()-1))) {
-            answer.setText("Invalid format. Please try again. Make sure to use units.");
-        } else {
-            if (theirAnswer.equals(correctAnswer)) {
-                answer.setText("Correct!");
-            } else {
-                answer.setText("Incorrect.\n Problem: " + question +
-                        "\n Your Answer: " + theirAnswer +
-                        "\n Correct Answer: " + correctAnswer);
-            }
-        }
-    }
+    public static void fitLabel(JLabel label) {
+        Font labelFont = label.getFont();
+        String labelText = label.getText();
 
-    public static void multiply() {
-        int number1 = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int)(Math.random() * 5) + 1)));
-        int number2 = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int)(Math.random() * 7) + 1)));
-        correctAnswer = formatNumber((double) number1 * number2);
-        question = "What is " + formatNumber(number1) + " times " + formatNumber(number2) + "?";
-        updateMathFrame(false);
-    }
+        int stringWidth = label.getFontMetrics(labelFont).stringWidth(labelText);
+        int componentWidth = label.getWidth();
 
-    public static void divide() {
-        long bigNumber = (long)(((int)(Math.random() * 98) + 1) * (Math.pow(10, (int)(Math.random() * 4) + 5)));
-        int littleNumber = (int) (((int) (Math.random() * 9.4 + 1) * 5) * (Math.pow(10, (int)(Math.random() * 5) + 1)));
-        correctAnswer = formatNumber((double) bigNumber / littleNumber);
-        question = "What is " + formatNumber(bigNumber) + " divided by " + formatNumber(littleNumber) + "?";
-        updateMathFrame(false);
-    }
+// Find out how much the font can grow in width.
+        double widthRatio = (double) componentWidth / (double) stringWidth;
 
-    public static void percent() {
-        int percent = (int)(Math.random() * 10) * 5;
-        long bigNumber = (long)(((int)(Math.random() * 98) + 1) * (Math.pow(10, (int)(Math.random() * 4) + 5)));
-        correctAnswer = formatNumber((double) Math.round((bigNumber * ((double) percent/100)) * 100) / 100);
-        question = "What is " + percent + " percent of " + formatNumber(bigNumber) + "?";
-        updateMathFrame(false);
-    }
+        int newFontSize = (int) (labelFont.getSize() * widthRatio);
+        int componentHeight = label.getHeight();
 
-    public static String formatNumber(double count) {
-        if (count < 1000) return "" + count;
-        long num = (long) count;
-        int exp = (int) (Math.log(num) / Math.log(1000));
-        DecimalFormat format = new DecimalFormat("0.##");
-        String value = format.format(num / Math.pow(1000, exp));
-        String number = String.format("%s%c", value, "KMBTPE".charAt(exp - 1));
-        return number;
-    }
+// Pick a new font size so it will not be larger than the height of label.
+        float fontSizeToUse = Math.min(newFontSize, componentHeight);
 
-    public static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
+// Set the label's font size to the newly determined size.
+        label.setFont(labelFont.deriveFont(fontSizeToUse));
     }
-
 }

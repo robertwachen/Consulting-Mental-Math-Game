@@ -44,11 +44,23 @@ public class ConsultingMath extends JFrame {
         mi_help_about.addActionListener(e -> JOptionPane.showMessageDialog(null, ABOUT, "About", JOptionPane.PLAIN_MESSAGE));
         m_help.add(mi_help_about);
 
-        titlePanel = createTitlePanel();
+        titlePanel = createTitlePanel4();
         setContentPane(titlePanel);
         revalidate();
         setVisible(true);
         System.out.println("all good");
+//        createTitlePanel1();
+//                revalidate();
+//        setVisible(true);
+//        System.out.println("all good");
+
+//        MetalLookAndFeel.setCurrentTheme(new OceanTheme());
+//        try {
+//            UIManager.setLookAndFeel(new MetalLookAndFeel());
+//        } catch (UnsupportedLookAndFeelException e) {
+//            e.printStackTrace();
+//        }
+//        revalidate();
     }
 
     private JPanel createTitlePanel() {
@@ -61,12 +73,14 @@ public class ConsultingMath extends JFrame {
         JLabel subtitleText = new JLabel("By: Robert Wachen");
         JLabel operations = new JLabel("Pick which operation you'd like to practice:");
 
+        //titleText.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // titleText.setHorizontalAlignment(SwingConstants.LEFT);
         panel.add(titleText);
         panel.add(subtitleText);
         panel.add(operations);
-        panel.add(buttonPanel);
+        //panel.add(buttonPanel);
 
-        //titleText.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         //titleText.setHorizontalAlignment(SwingConstants.LEFT);
         panel.setBorder(BorderFactory.createTitledBorder("panel"));
         titleText.setBorder(BorderFactory.createTitledBorder("titleText"));
@@ -99,7 +113,7 @@ public class ConsultingMath extends JFrame {
         Font subtitleFont = new Font("SansSerif", Font.BOLD, 20);
         subtitleText.setFont(subtitleFont);
         subtitleText.setForeground(Color.blue);
-       // subtitleText.setHorizontalAlignment(SwingConstants.CENTER);
+        // subtitleText.setHorizontalAlignment(SwingConstants.CENTER);
 
         operations.setFont(new Font("SansSerif", Font.BOLD, 20));
         operations.setForeground(Color.blue);
@@ -109,6 +123,74 @@ public class ConsultingMath extends JFrame {
         //buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         return panel;
     }
+
+    private void createTitlePanel1() {
+        Container panel = getContentPane();
+
+        //JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel buttonPanel = new JPanel();
+        //buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+
+        JLabel titleText = new JLabel("Consulting Mental Math Tool");
+        JLabel subtitleText = new JLabel("By: Robert Wachen");
+        JLabel operations = new JLabel("Pick which operation you'd like to practice:");
+
+        titleText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleText.setPreferredSize(new Dimension(200, 200));
+        titleText.setMinimumSize(titleText.getPreferredSize());
+        //subtitleText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(titleText);
+        panel.add(subtitleText);
+        panel.add(operations);
+        //panel.add(buttonPanel);
+
+        //titleText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //titleText.setHorizontalAlignment(SwingConstants.CENTER);
+        //titleText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //titleText.setHorizontalAlignment(SwingConstants.LEFT);
+        //panel.setBorder(BorderFactory.createTitledBorder("panel"));
+        titleText.setBorder(BorderFactory.createTitledBorder("titleText"));
+        subtitleText.setBorder(BorderFactory.createTitledBorder("subtitleText"));
+        operations.setBorder(BorderFactory.createTitledBorder("operations"));
+        buttonPanel.setBorder(BorderFactory.createTitledBorder("buttonPanel"));
+
+        Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
+        State[] states = State.values();
+        JButton[] options = new JButton[states.length];
+        for (int i = 0; i < states.length; i++) {
+            State state = states[i];
+            options[i] = new JButton(state.toString());
+            options[i].setFont(buttonFont);
+            options[i].setVerticalAlignment(SwingConstants.CENTER);
+            options[i].addActionListener(e -> newMath(state));
+            buttonPanel.add(options[i]);
+        }
+
+        //setting design
+        panel.setBackground(Color.green);
+        buttonPanel.setBackground(panel.getBackground());
+
+        Font font = new Font("SansSerif", Font.BOLD, 30);
+        titleText.setFont(font);
+        titleText.setForeground(Color.blue);
+        //titleText.setAlignmentX(Container.CENTER_ALIGNMENT);
+        //titleText.setHorizontalAlignment(JLabel.CENTER);
+
+        Font subtitleFont = new Font("SansSerif", Font.BOLD, 20);
+        subtitleText.setFont(subtitleFont);
+        subtitleText.setForeground(Color.blue);
+        // subtitleText.setHorizontalAlignment(SwingConstants.CENTER);
+
+        operations.setFont(new Font("SansSerif", Font.BOLD, 20));
+        operations.setForeground(Color.blue);
+        //operations.setHorizontalAlignment(SwingConstants.CENTER);
+        //operations.setAlignmentY(SwingConstants.CENTER);
+
+        //buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+//        return panel;
+    }
+
 
     private JPanel createTitlePanel2() {
         JPanel mainPanel = new JPanel();
@@ -171,11 +253,120 @@ public class ConsultingMath extends JFrame {
 
         return mainPanel;
     }
+
     private void newMath(State state) {
         setContentPane(new MathPanel(state));
         revalidate();
     }
 
+    private JPanel createTitlePanel3() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1));
+        JPanel buttonPanel = new JPanel();
+        //buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+
+        JLabel titleText = new JLabel("Consulting Mental Math Tool", JLabel.CENTER);
+        JLabel subtitleText = new JLabel("By: Robert Wachen", JLabel.CENTER);
+        JLabel operations = new JLabel("Pick which operation you'd like to practice:", JLabel.CENTER);
+
+        //titleText.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // titleText.setHorizontalAlignment(SwingConstants.LEFT);
+        panel.add(titleText);
+        panel.add(subtitleText);
+        panel.add(operations);
+        panel.add(buttonPanel);
+
+
+        //titleText.setHorizontalAlignment(SwingConstants.LEFT);
+        panel.setBorder(BorderFactory.createTitledBorder("panel"));
+        titleText.setBorder(BorderFactory.createTitledBorder("titleText"));
+        subtitleText.setBorder(BorderFactory.createTitledBorder("subtitleText"));
+        operations.setBorder(BorderFactory.createTitledBorder("operations"));
+        buttonPanel.setBorder(BorderFactory.createTitledBorder("buttonPanel"));
+
+        Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
+        State[] states = State.values();
+        JButton[] options = new JButton[states.length];
+        for (int i = 0; i < states.length; i++) {
+            State state = states[i];
+            options[i] = new JButton(state.toString());
+            options[i].setFont(buttonFont);
+            options[i].setVerticalAlignment(SwingConstants.CENTER);
+            options[i].addActionListener(e -> newMath(state));
+            buttonPanel.add(options[i]);
+        }
+
+        //setting design
+        panel.setBackground(Color.green);
+        buttonPanel.setBackground(panel.getBackground());
+
+        Font font = new Font("SansSerif", Font.BOLD, 30);
+        titleText.setFont(font);
+        titleText.setForeground(Color.blue);
+        //titleText.setAlignmentX(Container.CENTER_ALIGNMENT);
+        //titleText.setHorizontalAlignment(JLabel.CENTER);
+
+        Font subtitleFont = new Font("SansSerif", Font.BOLD, 20);
+        subtitleText.setFont(subtitleFont);
+        subtitleText.setForeground(Color.blue);
+        // subtitleText.setHorizontalAlignment(SwingConstants.CENTER);
+
+        operations.setFont(new Font("SansSerif", Font.BOLD, 20));
+        operations.setForeground(Color.blue);
+        //operations.setHorizontalAlignment(SwingConstants.CENTER);
+        //operations.setAlignmentY(SwingConstants.CENTER);
+
+        //buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return panel;
+    }
+
+    @SuppressWarnings("Cannotresolvesymbol")
+    private JPanel createTitlePanel4() {
+        final JPanel panel = new JPanel();
+
+        //look and feel
+        final Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
+        final Font titleFont = new JLabel().getFont().deriveFont(30f);
+        final Font subtitleFont = new JLabel().getFont().deriveFont(20f);
+        panel.setBackground(Color.lightGray);
+
+
+        int totalRows = 6;
+        panel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(totalRows, 1, new Insets(0, 0, 0, 0), -1, -1));
+        final JLabel titleText = new JLabel("Consulting Math Tool");
+        //Font label1Font = this.$$$getFont$$$(null, -1, 24, titleText.getFont());
+        //if (label1Font != null) titleText.setFont(label1Font);
+        titleText.setFont(titleFont);
+        panel.add(titleText, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel optionText = new JLabel("Select Stuff");
+        panel.add(optionText, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel creditText = new JLabel("By: Roberto");
+        panel.add(creditText, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        creditText.setFont(subtitleFont);
+        final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
+        panel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+
+        final JPanel buttonPanel = new JPanel();
+        State[] states = State.values();
+        JButton[] options = new JButton[states.length];
+        for (int i = 0; i < states.length; i++) {
+            State state = states[i];
+            options[i] = new JButton(state.toString());
+            options[i].setFont(buttonFont);
+            options[i].setVerticalAlignment(SwingConstants.CENTER);
+            options[i].addActionListener(e -> newMath(state));
+            buttonPanel.add(options[i]);
+        }
+        buttonPanel.setBackground(panel.getBackground());
+        //buttonPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 9, new Insets(0, 0, 0, 0), -1, -1));
+
+        //panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 9, new Insets(0, 0, 0, 0), -1, -1));
+        panel.add(buttonPanel, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+
+        final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
+        panel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        return panel;
+    }
 
     public State getStateOfThis() {
         return state;
@@ -193,9 +384,9 @@ public class ConsultingMath extends JFrame {
         int componentWidth = label.getWidth();
 
 // Find out how much the font can grow in width.
-        double widthRatio = (double)componentWidth / (double)stringWidth;
+        double widthRatio = (double) componentWidth / (double) stringWidth;
 
-        int newFontSize = (int)(labelFont.getSize() * widthRatio);
+        int newFontSize = (int) (labelFont.getSize() * widthRatio);
         int componentHeight = label.getHeight();
 
 // Pick a new font size so it will not be larger than the height of label.

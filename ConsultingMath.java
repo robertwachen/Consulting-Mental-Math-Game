@@ -1,29 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
-
-//Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
 public class ConsultingMath extends JFrame {
-    private JMenuBar mb_menu;
-    private JMenu m_file, m_help;
-    private JMenuItem mi_file_exit, mi_return_title;
-    private JMenuItem mi_help_about, mi_help_how;
 
     private JPanel titlePanel;
 
     private static final String ABOUT = "" +
-            "Welcome to the Consulting Mental Math Pratice Tool! " +
+            "Welcome to the Consulting Mental Math Pratice Tool!\n" +
             "This application should help prepare you " +
-            "for mental math problems that could appear on consulting case interviews.\n" +
+            "for mental math problems\nthat could appear on consulting case interviews.\n" +
             "\n" +
             "Types of Problems:" +
             "\n" +
             " - Percentage Problems (What is 15% of 30B?)\n" +
             " - Division Problems (What is 300M divided by 20K?)\n" +
             " - Multiplication Problems (What is 25K times 40K?)" +
-            "\n\nIf you enjoyed this tool, please share it with a friend!" +
+            "\n\nIf you enjoyed this tool, please share it with a friend!\n" +
             "\nProject created by Robert Wachen and Noah Schiff using Java (Swing API)";
 
     private static final String HOWTOUSE = "" +
@@ -38,25 +31,29 @@ public class ConsultingMath extends JFrame {
     }
 
     public ConsultingMath() {
-        System.out.println(Arrays.toString(UIManager.getInstalledLookAndFeels()));
 //        try {
 //            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-//                if ("CDE/Motif".equals(info.getName())) {
+//                if ("".equals(info.getName())) {
 //                    UIManager.setLookAndFeel(info.getClassName());
 //                    break;
 //                }
 //            }
 //        } catch (Exception e) {
-//            // If Nimbus is not available, you can set the GUI to another look and feel.
 //        }
-        //UIManager.setLookAndFeel(UIManager.getLookAndFeelDefaults());
 
         //JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Consulting Math Tool");
         setSize(600, 400);
+        setMinimumSize(new Dimension(500, 300));
         setLocationRelativeTo(null);
+
         //Menu
+        JMenuBar mb_menu;
+        JMenu m_file, m_help;
+        JMenuItem mi_file_exit, mi_return_title;
+        JMenuItem mi_help_about, mi_help_how;
+
         mb_menu = new JMenuBar();
         setJMenuBar(mb_menu);
         m_file = new JMenu("File");
@@ -65,7 +62,10 @@ public class ConsultingMath extends JFrame {
         mb_menu.add(m_help);
         mi_return_title = new JMenuItem("Return To Title");
         mi_return_title.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.META_DOWN_MASK));
-        mi_return_title.addActionListener(e -> setContentPane(titlePanel));
+        mi_return_title.addActionListener(e -> {
+            setContentPane(titlePanel);
+            revalidate();
+        });
         mi_file_exit = new JMenuItem("Exit");
         mi_file_exit.addActionListener(e -> System.exit(0));
         m_file.add(mi_return_title);
@@ -77,7 +77,6 @@ public class ConsultingMath extends JFrame {
         mi_help_how = new JMenuItem("How To Use");
         mi_help_how.addActionListener(e -> JOptionPane.showMessageDialog(null, HOWTOUSE, "How To Use", JOptionPane.PLAIN_MESSAGE));
         m_help.add(mi_help_how);
-
 
         //Title
         titlePanel = createTitlePanel();
@@ -106,8 +105,6 @@ public class ConsultingMath extends JFrame {
         int totalRows = 6;
         panel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(totalRows, 1, new Insets(0, 0, 0, 0), -1, -1));
         final JLabel titleText = new JLabel("Consulting Mental Math Tool");
-        //Font label1Font = this.$$$getFont$$$(null, -1, 24, titleText.getFont());
-        //if (label1Font != null) titleText.setFont(label1Font);
         titleText.setFont(titleFont);
         panel.add(titleText, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel optionText = new JLabel("Pick which operation you'd like to practice:");
@@ -139,25 +136,5 @@ public class ConsultingMath extends JFrame {
         final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
         panel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(5, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         return panel;
-    }
-
-    public static void fitLabel(JLabel label) {
-        Font labelFont = label.getFont();
-        String labelText = label.getText();
-
-        int stringWidth = label.getFontMetrics(labelFont).stringWidth(labelText);
-        int componentWidth = label.getWidth();
-
-// Find out how much the font can grow in width.
-        double widthRatio = (double) componentWidth / (double) stringWidth;
-
-        int newFontSize = (int) (labelFont.getSize() * widthRatio);
-        int componentHeight = label.getHeight();
-
-// Pick a new font size so it will not be larger than the height of label.
-        float fontSizeToUse = Math.min(newFontSize, componentHeight);
-
-// Set the label's font size to the newly determined size.
-        label.setFont(labelFont.deriveFont(fontSizeToUse));
     }
 }

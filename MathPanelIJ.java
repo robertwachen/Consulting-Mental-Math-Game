@@ -19,12 +19,11 @@ public class MathPanelIJ extends JPanel {
     private JProgressBar progressBar;
     private JButton nextQuestionButton, checkAnswerButton;
 
-    private int correct, incorrect, max;
+    private int correct, incorrect;
 
     private boolean canIncrement;
 
-    public MathPanelIJ(State state, int max) {
-        this.max = max;
+    public MathPanelIJ(State state) {
         this.correct = 0;
         this.incorrect = 0;
         this.state = state;
@@ -50,6 +49,7 @@ public class MathPanelIJ extends JPanel {
         this.add(progressBar, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         textField = new JTextField();
+        textField.setFont(textField.getFont().deriveFont(25f));
         this.add(textField, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
 
         utilPanel2 = new JPanel();
@@ -57,9 +57,11 @@ public class MathPanelIJ extends JPanel {
         this.add(utilPanel2, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
 
         answer = new JLabel();
+        answer.setFont(font);
         utilPanel2.add(answer, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         explanation = new JLabel();
+        explanation.setFont(font.deriveFont(20f));
         utilPanel2.add(explanation, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         status = new JLabel();
@@ -81,16 +83,7 @@ public class MathPanelIJ extends JPanel {
         nextQuestion();
     }
 
-    public MathPanelIJ(State state) {
-        this(state, 10);
-    }
-
     private void nextQuestion() {
-        answer.setForeground(Color.black);
-        problem.setForeground(Color.black);
-        explanation.setForeground(Color.black);
-        status.setForeground(Color.black);
-
         long num1, num2;
         switch (state) {
             case MULTIPLY:
@@ -129,8 +122,7 @@ public class MathPanelIJ extends JPanel {
         int exp = (int) (Math.log(num) / Math.log(1000));
         DecimalFormat format = new DecimalFormat("0.##");
         String value = format.format(num / Math.pow(1000, exp));
-        String number = String.format("%s%c", value, "KMBTPE".charAt(exp - 1));
-        return number;
+        return String.format("%s%c", value, "KMBTPE".charAt(exp - 1));
     }
 
     private void updateBackground(Color color) {
@@ -142,6 +134,11 @@ public class MathPanelIJ extends JPanel {
             problem.setForeground(Color.white);
             explanation.setForeground(Color.white);
             status.setForeground(Color.white);
+        } else {
+            answer.setForeground(Color.black);
+            problem.setForeground(Color.black);
+            explanation.setForeground(Color.black);
+            status.setForeground(Color.black);
         }
     }
 
@@ -159,9 +156,8 @@ public class MathPanelIJ extends JPanel {
                 updateBackground(Color.green);
             } else {
                 answer.setText("Incorrect.");
-                explanation.setText("Problem: " + currentQuestion +
-                        "\n Your Answer: " + input +
-                        "\n Correct Answer: " + currentAnswer);
+                explanation.setText("Your Answer: " + input +
+                        ". Correct Answer: " + currentAnswer);
                 if (canIncrement) incorrect++;
                 updateBackground(Color.red);
             }
@@ -172,7 +168,7 @@ public class MathPanelIJ extends JPanel {
 
     private void updateDisplay() {
         status.setText(correct + "/" + (correct + incorrect));
-        progressBar.setMaximum(correct+incorrect);
+        progressBar.setMaximum(correct + incorrect);
         progressBar.setValue(correct);
     }
 

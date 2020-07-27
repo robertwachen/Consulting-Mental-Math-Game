@@ -1,5 +1,5 @@
 # Consulting Mental Math Game
-By Robert Wachen
+By Robert Wachen and Noah Schiff
 
 Application created using Java (Swing API for UI) to help prepare students for mental math problems that could appear on consulting case interviews.
 

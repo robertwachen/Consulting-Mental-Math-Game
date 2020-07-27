@@ -1,22 +1,37 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 public class ConsultingMath extends JFrame {
     private JMenuBar mb_menu;
     private JMenu m_file, m_help;
     private JMenuItem mi_file_exit, mi_return_title;
-    private JMenuItem mi_help_about;
+    private JMenuItem mi_help_about, mi_help_how;
 
     private JPanel titlePanel;
 
     private static final String ABOUT = "hello!!!";
+    private static final String HOWTOUSE = "hello!!!";
 
     public static void main(String[] args) {
         new ConsultingMath();
     }
 
     public ConsultingMath() {
+        System.out.println(Arrays.toString(UIManager.getInstalledLookAndFeels()));
+//        try {
+//            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//                if ("CDE/Motif".equals(info.getName())) {
+//                    UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (Exception e) {
+//            // If Nimbus is not available, you can set the GUI to another look and feel.
+//        }
+        //UIManager.setLookAndFeel(UIManager.getLookAndFeelDefaults());
+
         //JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Consulting Math Tool");
@@ -41,6 +56,10 @@ public class ConsultingMath extends JFrame {
         mi_help_about = new JMenuItem("About");
         mi_help_about.addActionListener(e -> JOptionPane.showMessageDialog(null, ABOUT, "About", JOptionPane.PLAIN_MESSAGE));
         m_help.add(mi_help_about);
+        mi_help_how = new JMenuItem("How To Use");
+        mi_help_how.addActionListener(e -> JOptionPane.showMessageDialog(null, HOWTOUSE, "How To Use", JOptionPane.PLAIN_MESSAGE));
+        m_help.add(mi_help_how);
+
 
         //Title
         titlePanel = createTitlePanel();
@@ -63,19 +82,20 @@ public class ConsultingMath extends JFrame {
         final Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
         final Font titleFont = new JLabel().getFont().deriveFont(30f);
         final Font subtitleFont = new JLabel().getFont().deriveFont(20f);
+        final Font optionsFont = new JLabel().getFont().deriveFont(20f);
         //panel.setBackground(Color.lightGray);
-
 
         int totalRows = 6;
         panel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(totalRows, 1, new Insets(0, 0, 0, 0), -1, -1));
-        final JLabel titleText = new JLabel("Consulting Math Tool");
+        final JLabel titleText = new JLabel("Consulting Mental Math Tool");
         //Font label1Font = this.$$$getFont$$$(null, -1, 24, titleText.getFont());
         //if (label1Font != null) titleText.setFont(label1Font);
         titleText.setFont(titleFont);
         panel.add(titleText, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel optionText = new JLabel("Select Stuff");
+        final JLabel optionText = new JLabel("Pick which operation you'd like to practice:");
+        optionText.setFont(optionsFont);
         panel.add(optionText, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel creditText = new JLabel("By: Roberto");
+        final JLabel creditText = new JLabel("Por: Roberto y Noah");
         panel.add(creditText, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         creditText.setFont(subtitleFont);
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();

@@ -86,6 +86,11 @@ public class MathPanelIJ extends JPanel {
     }
 
     private void nextQuestion() {
+        answer.setForeground(Color.black);
+        problem.setForeground(Color.black);
+        explanation.setForeground(Color.black);
+        status.setForeground(Color.black);
+
         long num1, num2;
         switch (state) {
             case MULTIPLY:
@@ -99,7 +104,7 @@ public class MathPanelIJ extends JPanel {
                 currentAnswer = formatNumber((double) num1 / num2);
                 break;
             case PERCENT:
-                num1 = (int) (Math.random() * 10) * 5;
+                num1 = (int) (Math.random() * 10 + 1) * 5;
                 num2 = (long) (((int) (Math.random() * 98) + 1) * (Math.pow(10, (int) (Math.random() * 4) + 5)));
                 currentAnswer = formatNumber((double) Math.round((num2 * ((double) num1 / 100)) * 100) / 100);
                 break;
@@ -132,6 +137,12 @@ public class MathPanelIJ extends JPanel {
         setBackground(color);
         utilPanel1.setBackground(color);
         utilPanel2.setBackground(color);
+        if (color == Color.red) {
+            answer.setForeground(Color.white);
+            problem.setForeground(Color.white);
+            explanation.setForeground(Color.white);
+            status.setForeground(Color.white);
+        }
     }
 
     public void checkAnswer(String input) {
@@ -160,7 +171,7 @@ public class MathPanelIJ extends JPanel {
     }
 
     private void updateDisplay() {
-        status.setText(correct + ":" + incorrect);
+        status.setText(correct + "/" + (correct + incorrect));
         progressBar.setMaximum(correct+incorrect);
         progressBar.setValue(correct);
     }

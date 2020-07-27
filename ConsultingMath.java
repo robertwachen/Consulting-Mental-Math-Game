@@ -13,8 +13,25 @@ public class ConsultingMath extends JFrame {
 
     private JPanel titlePanel;
 
-    private static final String ABOUT = "hello!!!";
-    private static final String HOWTOUSE = "hello!!!";
+    private static final String ABOUT = "" +
+            "Welcome to the Consulting Mental Math Pratice Tool! " +
+            "This application should help prepare you " +
+            "for mental math problems that could appear on consulting case interviews.\n" +
+            "\n" +
+            "Types of Problems:" +
+            "\n" +
+            " - Percentage Problems (What is 15% of 30B?)\n" +
+            " - Division Problems (What is 300M divided by 20K?)\n" +
+            " - Multiplication Problems (What is 25K times 40K?)" +
+            "\n\nIf you enjoyed this tool, please share it with a friend!" +
+            "\nProject created by Robert Wachen and Noah Schiff using Java (Swing API)";
+
+    private static final String HOWTOUSE = "" +
+            "HOW TO USE: \n" +
+            "1) Starting on the title screen, select which operation you'd like to practice.\n" +
+            "2) Solve the problems rounding 2 decimal places. Label your answers using K, M, B, or T.\n" +
+            "3) When you're done practicing an operation, return to the title screen and select another.\n" +
+            "We hope you find this tool helpful!";
 
     public static void main(String[] args) {
         new ConsultingMath();
@@ -96,7 +113,7 @@ public class ConsultingMath extends JFrame {
         final JLabel optionText = new JLabel("Pick which operation you'd like to practice:");
         optionText.setFont(optionsFont);
         panel.add(optionText, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel creditText = new JLabel("Por: Roberto y Noah");
+        final JLabel creditText = new JLabel("By: Robert Wachen and Noah Schiff");
         panel.add(creditText, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         creditText.setFont(subtitleFont);
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
